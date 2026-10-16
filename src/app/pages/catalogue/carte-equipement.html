@@ -1,0 +1,51 @@
+<article class="equipment-card">
+  <div class="equipment-card-top">
+    <span class="category-label">{{ equipement().categorie }}</span>
+    @if (reserve()) {
+      <span class="availability availability-busy"> <span aria-hidden="true"></span> Réservé </span>
+    } @else {
+      <span class="availability availability-free">
+        <span aria-hidden="true"></span> Disponible
+      </span>
+    }
+  </div>
+  <h2>{{ equipement().nom }}</h2>
+  <p class="equipment-description">{{ equipement().description }}</p>
+  <p class="equipment-location">
+    <span aria-hidden="true">⌖</span> {{ equipement().localisation }}
+  </p>
+  <div class="equipment-actions">
+    <a class="button button-secondary" [routerLink]="['/materiels', equipement().id]">
+      Voir le matériel
+    </a>
+    @if (etudiant()) {
+      <button
+        class="button button-primary"
+        type="button"
+        [disabled]="reserve()"
+        (click)="reservationDemandee.emit(equipement().id)"
+      >
+        {{ reserve() ? 'Indisponible' : 'Réserver' }}
+      </button>
+    }
+    @if (gestionnaire()) {
+      <a
+        class="icon-button"
+        [routerLink]="['/gestion', equipement().id, 'modifier']"
+        [attr.aria-label]="'Modifier ' + equipement().nom"
+        title="Modifier"
+      >
+        ✎
+      </a>
+      <button
+        class="icon-button danger-icon"
+        type="button"
+        (click)="suppressionDemandee.emit(equipement().id)"
+        [attr.aria-label]="'Supprimer ' + equipement().nom"
+        title="Supprimer"
+      >
+        ⌫
+      </button>
+    }
+  </div>
+</article>

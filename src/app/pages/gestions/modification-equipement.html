@@ -1,0 +1,9 @@
+@if (message()) {
+  <p class="notice" role="alert">{{ message() }}</p>
+}
+@if (equipement) {
+  <app-formulaire-equipement
+    [equipement]="equipement"
+    (enregistrementDemande)="enregistrer($event)"
+  />
+}

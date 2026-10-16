@@ -1,0 +1,4 @@
+import { EQUIPEMENTS_INITIAUX, COMPTES_INITIAUX,
+  RESERVATIONS_INITIALES, CATEGORIES } from './data/donnees-initiales';
+
+  

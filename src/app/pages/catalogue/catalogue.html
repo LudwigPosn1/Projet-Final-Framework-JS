@@ -1,0 +1,57 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">LE CATALOGUE DU CAMPUS</p>
+    <h1>Du matériel pour vos idées.</h1>
+    <p class="lead">Trouvez un équipement, consultez sa disponibilité et réservez-le.</p>
+  </div>
+  @if (store.currentUser()?.role === 'manager') {
+    <a class="button button-primary" routerLink="/gestion/nouveau">
+      <span aria-hidden="true">＋</span> Ajouter un matériel
+    </a>
+  }
+</section>
+
+<section class="toolbar panel" aria-label="Filtres du catalogue">
+  <label class="search-field">
+    <span class="sr-only">Rechercher par nom</span>
+    <span aria-hidden="true">⌕</span>
+    <input
+      type="search"
+      placeholder="Nom du matériel…"
+      [value]="recherche()"
+      (input)="onRechercheChange($event)"
+    />
+  </label>
+  <label class="filter-field">
+    <span class="sr-only">Filtrer par catégorie</span>
+    <select [value]="categorieSelectionnee()" (change)="onCategorieChange($event)">
+      <option value="">Toutes les catégories</option>
+      @for (categorie of categories; track categorie) {
+        <option [value]="categorie">{{ categorie }}</option>
+      }
+    </select>
+  </label>
+</section>
+
+@if (message()) {
+  <p class="notice" role="status">{{ message() }}</p>
+}
+
+<section class="equipment-grid" aria-label="Matériel disponible">
+  @for (equipement of equipementsFiltres(); track equipement.id) {
+    <app-carte-equipement
+      [equipement]="equipement"
+      [reserve]="store.isReserved(equipement.id)"
+      [gestionnaire]="store.currentUser()?.role === 'manager'"
+      [etudiant]="store.currentUser()?.role === 'student'"
+      (suppressionDemandee)="supprimer($event)"
+      (reservationDemandee)="reserver($event)"
+    />
+  } @empty {
+    <div class="empty-state panel">
+      <span class="empty-icon" aria-hidden="true">⌕</span>
+      <h2>Aucun matériel trouvé</h2>
+      <p>Essayez de modifier votre recherche ou de choisir une autre catégorie.</p>
+    </div>
+  }
+</section>

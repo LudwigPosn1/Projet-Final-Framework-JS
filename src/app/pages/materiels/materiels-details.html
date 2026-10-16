@@ -1,0 +1,53 @@
+<a class="back-link" routerLink="/catalogue">← Retour au catalogue</a>
+
+@if (equipement(); as item) {
+  <article class="detail-layout">
+    <div class="detail-art" aria-hidden="true">
+      <span class="detail-art-mark">CM</span>
+      <span class="detail-art-category">{{ item.categorie }}</span>
+    </div>
+    <div class="detail-copy">
+      <p class="eyebrow">{{ item.categorie }}</p>
+      <h1>{{ item.nom }}</h1>
+      @if (store.isReserved(item.id)) {
+        <span class="availability availability-busy">
+          <span aria-hidden="true"></span> Actuellement réservé
+        </span>
+      } @else {
+        <span class="availability availability-free">
+          <span aria-hidden="true"></span> Disponible à la réservation
+        </span>
+      }
+      <p class="detail-description">{{ item.description }}</p>
+      <div class="detail-location">
+        <span class="location-icon" aria-hidden="true">⌖</span>
+        <span
+          ><small>À récupérer à</small><strong>{{ item.localisation }}</strong></span
+        >
+      </div>
+
+      @if (store.currentUser()?.role === 'student') {
+        <button
+          class="button button-primary button-wide"
+          type="button"
+          (click)="reserver()"
+          [disabled]="store.isReserved(item.id)"
+        >
+          {{ store.isReserved(item.id) ? 'Matériel indisponible' : 'Réserver ce matériel' }}
+        </button>
+      } @else {
+        <p class="muted">Les réservations sont disponibles pour les comptes étudiants.</p>
+      }
+      @if (message()) {
+        <p class="notice" role="status">{{ message() }}</p>
+      }
+    </div>
+  </article>
+} @else {
+  <section class="empty-state panel">
+    <span class="empty-icon" aria-hidden="true">?</span>
+    <h1>Matériel introuvable</h1>
+    <p>Ce matériel n’existe plus ou le lien est incorrect.</p>
+    <a class="button button-primary" routerLink="/catalogue">Revenir au catalogue</a>
+  </section>
+}

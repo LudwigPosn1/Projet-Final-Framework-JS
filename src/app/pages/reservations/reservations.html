@@ -1,0 +1,42 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">VOTRE ESPACE PERSONNEL</p>
+    <h1>Mes réservations</h1>
+    <p class="lead">Retrouvez les matériels que vous avez réservés.</p>
+  </div>
+  <a class="button button-secondary" routerLink="/catalogue">Explorer le catalogue</a>
+</section>
+
+@if (lignes().length > 0) {
+  <section class="reservation-list" aria-label="Mes réservations en cours">
+    @for (ligne of lignes(); track ligne.reservation.id) {
+      <article class="reservation-card panel">
+        <div class="reservation-symbol" aria-hidden="true">✓</div>
+        <div class="reservation-copy">
+          <span class="category-label">{{ ligne.equipement?.categorie ?? 'Matériel' }}</span>
+          <h2>{{ ligne.equipement?.nom ?? 'Matériel supprimé' }}</h2>
+          <p>{{ ligne.equipement?.localisation ?? 'Lieu indisponible' }}</p>
+        </div>
+        @if (ligne.equipement) {
+          <a class="button button-secondary" [routerLink]="['/materiels', ligne.equipement.id]">
+            Voir le détail
+          </a>
+        }
+        <button
+          class="button button-danger button-small"
+          type="button"
+          (click)="annuler(ligne.reservation.id)"
+        >
+          Annuler
+        </button>
+      </article>
+    }
+  </section>
+} @else {
+  <section class="empty-state panel">
+    <span class="empty-icon" aria-hidden="true">⌂</span>
+    <h2>Vous n’avez pas encore de réservation</h2>
+    <p>Parcourez le catalogue pour trouver le matériel dont vous avez besoin.</p>
+    <a class="button button-primary" routerLink="/catalogue">Découvrir le catalogue</a>
+  </section>
+}

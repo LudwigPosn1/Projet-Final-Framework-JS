@@ -1,0 +1,109 @@
+<a class="back-link" routerLink="/gestion">← Retour à la gestion du catalogue</a>
+<section class="form-page">
+  <div class="form-heading">
+    <p class="eyebrow">ESPACE GESTIONNAIRE</p>
+    <h1>{{ equipement() ? 'Modifier le matériel' : 'Ajouter un matériel' }}</h1>
+    <p class="lead">
+      @if (equipement(); as item) {
+        Mettez à jour les informations de {{ item.nom }}.
+      } @else {
+        Renseignez les informations qui aideront les étudiants à trouver cet équipement.
+      }
+    </p>
+  </div>
+
+  <form class="panel equipment-form" [formGroup]="form" (ngSubmit)="enregistrer()" novalidate>
+    <div class="form-field">
+      <label for="nom">Nom du matériel</label>
+      <input
+        id="nom"
+        type="text"
+        formControlName="nom"
+        placeholder="Ex. Ordinateur portable 03"
+        autocomplete="off"
+        [attr.aria-invalid]="
+          form.controls.nom.invalid && (form.controls.nom.touched || submitted())
+        "
+        [attr.aria-describedby]="
+          form.controls.nom.invalid && (form.controls.nom.touched || submitted())
+            ? 'nom-error'
+            : null
+        "
+      />
+      @if (form.controls.nom.invalid && (form.controls.nom.touched || submitted())) {
+        <small class="field-error" id="nom-error">
+          Le nom est obligatoire et doit contenir au moins 3 caractères.
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="categorie">Catégorie</label>
+      <select id="categorie" formControlName="categorie">
+        @for (categorie of categories; track categorie) {
+          <option [value]="categorie">{{ categorie }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        rows="4"
+        formControlName="description"
+        placeholder="Décrivez l’équipement et ses accessoires."
+        [attr.aria-invalid]="
+          form.controls.description.invalid && (form.controls.description.touched || submitted())
+        "
+        [attr.aria-describedby]="
+          form.controls.description.invalid && (form.controls.description.touched || submitted())
+            ? 'description-error'
+            : null
+        "
+      ></textarea>
+      @if (
+        form.controls.description.invalid && (form.controls.description.touched || submitted())
+      ) {
+        <small class="field-error" id="description-error">
+          La description est obligatoire et doit contenir au moins 10 caractères.
+        </small>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="localisation">Lieu de retrait</label>
+      <input
+        id="localisation"
+        type="text"
+        formControlName="localisation"
+        placeholder="Ex. Salle informatique B201"
+        [attr.aria-invalid]="
+          form.controls.localisation.invalid && (form.controls.localisation.touched || submitted())
+        "
+        [attr.aria-describedby]="
+          form.controls.localisation.invalid && (form.controls.localisation.touched || submitted())
+            ? 'localisation-error'
+            : null
+        "
+      />
+      @if (
+        form.controls.localisation.invalid && (form.controls.localisation.touched || submitted())
+      ) {
+        <small class="field-error" id="localisation-error">
+          Le lieu de retrait est obligatoire.
+        </small>
+      }
+    </div>
+
+    @if (message()) {
+      <p class="notice" role="alert">{{ message() }}</p>
+    }
+    <div class="form-actions">
+      <a class="button button-quiet" routerLink="/gestion">Annuler</a>
+      <button class="button button-primary" type="submit">
+        {{ equipement() ? 'Enregistrer les changements' : 'Ajouter au catalogue' }}
+      </button>
+    </div>
+  </form>
+</section>

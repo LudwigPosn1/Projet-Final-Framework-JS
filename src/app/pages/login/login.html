@@ -1,0 +1,39 @@
+<section class="login-layout">
+  <div class="login-intro">
+    <p class="eyebrow">LE MATÉRIEL DU CAMPUS, À PORTÉE DE MAIN</p>
+    <h1>Empruntez le bon matériel pour vos projets.</h1>
+    <p class="lead">
+      Consultez le catalogue, vérifiez les disponibilités et gérez vos réservations en quelques
+      clics.
+    </p>
+    <div class="login-highlights">
+      <span><span aria-hidden="true">✓</span> Disponibilités en temps réel</span>
+      <span><span aria-hidden="true">✓</span> Réservations simples et suivies</span>
+      <span><span aria-hidden="true">✓</span> Un espace adapté à votre rôle</span>
+    </div>
+  </div>
+
+  <section class="panel login-panel" aria-labelledby="login-title">
+    <p class="eyebrow">ESPACE CAMPUS</p>
+    <h2 id="login-title">Choisissez votre compte</h2>
+    <p class="muted">Cette démonstration utilise des comptes de test, sans mot de passe.</p>
+
+    <div class="account-list">
+      @for (compte of comptes; track compte.id) {
+        <button class="account-option" type="button" (click)="connecter(compte.id)">
+          <span class="avatar" aria-hidden="true">{{ compte.nom.charAt(0) }}</span>
+          <span class="account-option-copy">
+            <strong>{{ compte.nom }}</strong>
+            <span>{{
+              compte.role === 'manager' ? 'Gestionnaire du matériel' : 'Compte étudiant'
+            }}</span>
+          </span>
+          <span class="account-arrow" aria-hidden="true">→</span>
+        </button>
+      }
+    </div>
+    <p class="demo-note">
+      Les réservations et les équipements sont enregistrés dans ce navigateur.
+    </p>
+  </section>
+</section>

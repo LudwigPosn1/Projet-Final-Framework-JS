@@ -1,0 +1,52 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">ESPACE GESTIONNAIRE</p>
+    <h1>Suivi des réservations</h1>
+    <p class="lead">Consultez les emprunts en cours et libérez un matériel si nécessaire.</p>
+  </div>
+  <a class="button button-secondary" routerLink="/catalogue">Voir le catalogue</a>
+</section>
+
+@if (lignes().length > 0) {
+  <div class="panel table-panel">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Matériel</th>
+            <th scope="col">Étudiant</th>
+            <th scope="col">Emplacement</th>
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ligne of lignes(); track ligne.reservation.id) {
+            <tr>
+              <td>
+                <strong>{{ ligne.equipement?.nom ?? 'Matériel supprimé' }}</strong>
+                <span class="table-subtitle">{{ ligne.equipement?.categorie ?? '—' }}</span>
+              </td>
+              <td>{{ ligne.compte?.nom ?? 'Compte inconnu' }}</td>
+              <td>{{ ligne.equipement?.localisation ?? '—' }}</td>
+              <td class="table-actions">
+                <button
+                  class="button button-danger button-small"
+                  type="button"
+                  (click)="annuler(ligne.reservation.id)"
+                >
+                  Annuler
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+} @else {
+  <section class="empty-state panel">
+    <span class="empty-icon" aria-hidden="true">✓</span>
+    <h2>Aucune réservation en cours</h2>
+    <p>Les nouvelles réservations apparaîtront ici.</p>
+  </section>
+}
