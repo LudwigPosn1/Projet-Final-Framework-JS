@@ -9,7 +9,6 @@ Application Angular de démonstration permettant aux étudiants de consulter et 
 
 ```bash
 npm install
-npm start
 ```
 
 Ouvrir ensuite [http://localhost:4200](http://localhost:4200).
@@ -51,13 +50,6 @@ Il s’agit d’une simulation pédagogique : aucun mot de passe ni service d’
 | `/gestion/:id/modifier`   | Gestionnaire         |
 | `/materiels-reservations` | Gestionnaire         |
 | `/acces-refuse`           | Public               |
-
-## Vérification
-
-```bash
-npm test -- --watch=false
-npm run build
-```
 
 ## Choix et limites
 
